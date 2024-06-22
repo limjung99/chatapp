@@ -24,7 +24,7 @@ public class AuthServiceImpl implements AuthService {
             throw new UserDoesNotExistException("user does not exists");
 
 
-        return null;
+        return user;
     }
 
     @Override
@@ -34,6 +34,9 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(signUpDto.getEmail());
         user.setName(signUpDto.getName());
         user.setPassword(signUpDto.getPassword());
+
+        if(!user.getEmail().contains("@"))
+            throw new UserDoesNotExistException("Invalid email format");
 
         return Optional.of(userRepository.save(user));
     }
