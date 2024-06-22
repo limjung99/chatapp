@@ -5,7 +5,6 @@ import com.example.chatapp.dto.SignUpDto;
 import com.example.chatapp.entity.User;
 import com.example.chatapp.exception.UserDoesNotExistException;
 import com.example.chatapp.repository.UserRepository;
-import com.mysql.cj.x.protobuf.MysqlxCursor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -29,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User signUp(SignUpDto signUpDto) {
+    public Optional<User> signUp(SignUpDto signUpDto) {
         User user = new User();
         user.setUserId(signUpDto.getUserId());
         user.setEmail(signUpDto.getEmail());
@@ -37,6 +36,6 @@ public class AuthServiceImpl implements AuthService {
         // TODO hasing
         user.setPassword(signUpDto.getPassword());
 
-        return userRepository.save(user);
+        return Optional.of(userRepository.save(user));
     }
 }
