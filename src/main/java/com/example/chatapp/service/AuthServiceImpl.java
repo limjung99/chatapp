@@ -33,7 +33,6 @@ public class AuthServiceImpl implements AuthService {
         user.setUserId(signUpDto.getUserId());
         user.setEmail(signUpDto.getEmail());
         user.setName(signUpDto.getName());
-        // TODO hasing
         user.setPassword(signUpDto.getPassword());
 
         return Optional.of(userRepository.save(user));
