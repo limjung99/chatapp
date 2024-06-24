@@ -17,6 +17,11 @@ public class AuthController {
     public AuthController(AuthServiceImpl authService){
         this.authService = authService;
     }
+
+    @GetMapping("/health")
+    public ResponseEntity healthCheck(){
+        return ResponseEntity.ok("ok");
+    }
     @PostMapping("/users/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
         Optional<User> user = authService.login(loginDto);
