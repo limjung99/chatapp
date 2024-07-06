@@ -1,4 +1,4 @@
-package com.example.chatapp.util;
+package com.example.chatapp.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -6,14 +6,12 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.example.chatapp.dto.TokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-
-import java.net.Authenticator;
-import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
@@ -22,15 +20,13 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    @Value("${jwt.secret}")
-    private String secret;
     @Value("${jwt.time}")
     private long expireTimeDelta;
-    private UserDetailsService userDetailsService;
-    @Value("${jwt.rsa-pub-key}")
-    private RSAPublicKey rsaPublicKey;
-    @Value("${jwt.rsa-private-key}")
-    private RSAPrivateKey rsaPrivateKey;
+    private final CustomUserDetailsService userDetailsService;
+    @Value("${jwt.pub-key}")
+    private RSAPublicKey publicKey;
+    @Value("${jwt.private-key}")
+    private RSAPrivateKey privateKey;
 
     private String createToken(Algorithm algorithm, Authentication authentication) throws JWTCreationException{
         return JWT.create()
@@ -48,7 +44,7 @@ public class JwtProvider {
 
     public TokenResponseDto createTokenPair(Authentication authenticaton) throws JWTCreationException {
         try {
-            Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
+            Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
             String token = createToken(algorithm, authenticaton);
             String refreshToken = createRefreshToken(algorithm, authenticaton);
             return TokenResponseDto.builder()
@@ -61,5 +57,15 @@ public class JwtProvider {
     }
 
     public boolean validateToken(String token){
+        String claimUser = JWT.decode(token)
+                .getSubject();
+
+        try {
+            userDetailsService.loadUserByUsername(claimUser);
+        } catch (UsernameNotFoundException exception){
+            return false;
+        }
+
+        return true;
     }
 }
