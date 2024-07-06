@@ -19,7 +19,7 @@ public class AuthController {
     }
 
     @GetMapping("/health")
-    public ResponseEntity healthCheck(){
+    public ResponseEntity<?> healthCheck(){
         return ResponseEntity.ok("ok");
     }
     @PostMapping("/users/login")
