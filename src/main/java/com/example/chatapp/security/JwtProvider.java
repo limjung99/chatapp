@@ -68,4 +68,9 @@ public class JwtProvider {
 
         return true;
     }
+
+    public String extractUserFromToken(String token){
+        // TODO
+        return null;
+    }
 }

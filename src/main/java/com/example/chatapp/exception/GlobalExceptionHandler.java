@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-//@ControllerAdvice
+@ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
     // 예외 타입에 따른 처리 메서드 정의
@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request) {
         log.info("global Exception occur");
+        // TODO : exeception handle specify
         return ResponseEntity.internalServerError().build();
     }
 }
