@@ -1,4 +1,4 @@
-package com.example.chatapp.dto;
+package com.example.chatapp.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class TokenResponseDto {
+public class TokenResponse {
     String token;
     String refreshToken;
 }

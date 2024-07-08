@@ -1,7 +1,7 @@
 package com.example.chatapp.service;
 
-import com.example.chatapp.dto.LoginDto;
-import com.example.chatapp.dto.SignUpDto;
+import com.example.chatapp.dto.request.LoginRequest;
+import com.example.chatapp.dto.request.SignupRequest;
 import com.example.chatapp.entity.User;
 import com.example.chatapp.exception.UserDoesNotExistException;
 import com.example.chatapp.repository.UserRepository;
@@ -17,8 +17,8 @@ public class AuthServiceImpl implements AuthService {
         this.userRepository = userRepository;
     }
     @Override
-    public Optional<User> login(LoginDto loginDto) {
-        Optional<User> user = userRepository.findByUserId(loginDto.getId());
+    public Optional<User> login(LoginRequest loginRequest) {
+        Optional<User> user = userRepository.findByUserId(loginRequest.getId());
 
         if(user.isEmpty())
             throw new UserDoesNotExistException("user does not exists");
@@ -28,12 +28,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Optional<User> signUp(SignUpDto signUpDto) {
+    public Optional<User> signUp(SignupRequest signupRequest) {
         User user = new User();
-        user.setUserId(signUpDto.getUserId());
-        user.setEmail(signUpDto.getEmail());
-        user.setName(signUpDto.getName());
-        user.setPassword(signUpDto.getPassword());
+        user.setUserId(signupRequest.getUserId());
+        user.setEmail(signupRequest.getEmail());
+        user.setName(signupRequest.getName());
+        user.setPassword(signupRequest.getPassword());
 
         if(!user.getEmail().contains("@"))
             throw new UserDoesNotExistException("Invalid email format");
