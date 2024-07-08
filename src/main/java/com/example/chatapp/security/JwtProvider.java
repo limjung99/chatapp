@@ -3,12 +3,10 @@ package com.example.chatapp.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.example.chatapp.dto.TokenResponseDto;
+import com.example.chatapp.dto.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -42,12 +40,12 @@ public class JwtProvider {
                 .sign(algorithm);
     }
 
-    public TokenResponseDto createTokenPair(Authentication authenticaton) throws JWTCreationException {
+    public TokenResponse createTokenPair(Authentication authenticaton) throws JWTCreationException {
         try {
             Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
             String token = createToken(algorithm, authenticaton);
             String refreshToken = createRefreshToken(algorithm, authenticaton);
-            return TokenResponseDto.builder()
+            return TokenResponse.builder()
                     .token(token)
                     .refreshToken(refreshToken)
                     .build();

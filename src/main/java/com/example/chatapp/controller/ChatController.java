@@ -1,6 +1,6 @@
 package com.example.chatapp.controller;
 
-import com.example.chatapp.dto.ChatMessageDto;
+import com.example.chatapp.dto.ChatMessage;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -16,9 +16,9 @@ public class ChatController {
 
     @MessageMapping("/chatting/{chatRoomId}")
     @SendTo("/topic/chatting/{chatRoomId}")
-    public ChatMessageDto chat(@DestinationVariable Long chatRoomId, String message){
-        ChatMessageDto chatMessageDto = new ChatMessageDto();
-        chatMessageDto.setMessage(message);
-        return chatMessageDto;
+    public ChatMessage chat(@DestinationVariable Long chatRoomId, String message){
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setMessage(message);
+        return chatMessage;
     }
 }

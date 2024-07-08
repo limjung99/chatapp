@@ -1,7 +1,7 @@
 package com.example.chatapp.controller;
 
-import com.example.chatapp.dto.LoginDto;
-import com.example.chatapp.dto.SignUpDto;
+import com.example.chatapp.dto.request.LoginRequest;
+import com.example.chatapp.dto.request.SignupRequest;
 import com.example.chatapp.entity.User;
 import com.example.chatapp.service.AuthService;
 import com.example.chatapp.service.AuthServiceImpl;
@@ -23,14 +23,14 @@ public class AuthController {
         return ResponseEntity.ok("ok");
     }
     @PostMapping("/users/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
-        Optional<User> user = authService.login(loginDto);
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
+        Optional<User> user = authService.login(loginRequest);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/users")
-    public ResponseEntity<?> signUp(@RequestBody SignUpDto signUpDto){
-        Optional<User> user = authService.signUp(signUpDto);
+    public ResponseEntity<?> signUp(@RequestBody SignupRequest signupRequest){
+        Optional<User> user = authService.signUp(signupRequest);
         return ResponseEntity.ok().build();
     }
 }
