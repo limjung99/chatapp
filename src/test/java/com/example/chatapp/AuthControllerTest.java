@@ -41,8 +41,9 @@ public class AuthControllerTest {
                 .password("test")
                 .build();
 
-        User expectedUser = new User();
-        expectedUser.setUserId("test");
+        User expectedUser = User.builder()
+                        .userId("test")
+                        .build();
 
         Mockito.when(authService.signUp(Mockito.any(SignupRequest.class)))
                 .thenReturn(Optional.of(expectedUser));

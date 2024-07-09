@@ -29,11 +29,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Optional<User> signUp(SignupRequest signupRequest) {
-        User user = new User();
-        user.setUserId(signupRequest.getUserId());
-        user.setEmail(signupRequest.getEmail());
-        user.setName(signupRequest.getName());
-        user.setPassword(signupRequest.getPassword());
+        User user = User.builder()
+                        .userId(signupRequest.getUserId())
+                        .email(signupRequest.getEmail())
+                        .name(signupRequest.getName())
+                        .password(signupRequest.getPassword())
+                        .build();
 
         if(!user.getEmail().contains("@"))
             throw new UserDoesNotExistException("Invalid email format");
