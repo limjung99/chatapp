@@ -5,17 +5,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
+import lombok.*;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue
-    int id;
+    Long id;
     @Column(name = "user_id")
     String userId;
     String password;
